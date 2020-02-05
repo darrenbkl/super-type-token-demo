@@ -1,13 +1,10 @@
 package com.db.sttdemo;
 
-import com.google.common.reflect.TypeToken;
-import com.google.gson.Gson;
 import org.springframework.core.ParameterizedTypeReference;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.*;
 
 public class SuperTypeToken {
