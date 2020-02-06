@@ -54,17 +54,19 @@ public class STTDemo implements CommandLineRunner {
 
         ParameterizedTypeReference<List<User>> typeRef = new ParameterizedTypeReference<>() {};
 
-        Flux<User> userFlux = Flux.fromArray(new User[]{new User("D", "B", 11), new User("E", "F", 22)});
+        List<User> users = Arrays.asList(new User("D", "B", 13), new User("E", "F", 22));
+        Mono<List<User>> userMono = Mono.just(users);
 
 //        List<User> users = Arrays.asList(
 
         webClient.post()
                  .uri("/users")
-                 .body(BodyInserters.fromPublisher(userFlux, User.class))
+//                 .bodyValue(users)
+//                 .body(BodyInserters.fromValue(users))
+                 .body(BodyInserters.fromPublisher(userMono, typeRef))
                  .retrieve()
                  .toBodilessEntity()
                  .subscribe();
-
 
 
 
