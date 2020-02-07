@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -72,7 +73,8 @@ class SuperTypeTokenTest {
 
     @Test
     void testAnonymousClass() {
-        Class<?> clazz = new SuperTypeToken<List<String>>() {}.getClass();
+        Class<?> clazz = new SuperTypeToken<List<String>>() {
+        }.getClass();
         printType(clazz);
     }
 
@@ -87,9 +89,6 @@ class SuperTypeTokenTest {
         Class<?> clazz3 = new SubGeneric<List<String>>().getClass();
         printType(clazz3);
     }
-
-
-
 
 
     @Test
@@ -123,8 +122,6 @@ class SuperTypeTokenTest {
     }
 
 
-
-
     @Test
     void testTypeTokenSimple() {
         TypeToken<String> typeToken = TypeToken.of(String.class);
@@ -133,19 +130,19 @@ class SuperTypeTokenTest {
 
     @Test
     void testTypeTokenParameterised() {
-        TypeToken<List<String>> typeToken = new TypeToken<>() {};
+        TypeToken<List<String>> typeToken = new TypeToken<>() {
+        };
         System.out.println(typeToken.getType());
     }
 
     @Test
     void testGson() {
-        Type type = new TypeToken<List<User>>() {}.getType();
+        Type type = new TypeToken<List<User>>() {
+        }.getType();
 
         List<User> list = new Gson().fromJson(json, type);
         System.out.println(list);
     }
-
-
 
 
     @Test
@@ -178,9 +175,6 @@ class SuperTypeTokenTest {
         List<User> list = mapper.readValue(json, javaType);
         System.out.println(list);
     }
-
-
-
 
 
     public static List<String> listMethod() {

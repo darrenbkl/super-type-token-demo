@@ -4,13 +4,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.web.reactive.function.BodyInserter;
-import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.Arrays;
 import java.util.List;
 
 @SpringBootApplication
@@ -45,37 +41,31 @@ public class STTDemo implements CommandLineRunner {
 //                 .doOnNext(System.out::println)
 //                 .subscribe();
 
-//        webClient.get()
-//                 .uri("/users")
-//                 .retrieve()
+        ParameterizedTypeReference<List<User>> typeRef = new ParameterizedTypeReference<>() {
+        };
+
+        Mono<List<User>> listMono = webClient.get()
+                                             .uri("/users")
+                                             .retrieve()
+                                             .bodyToMono(typeRef);
 //                 .bodyToFlux(User.class)
-//                 .doOnNext(System.out::println)
-//                 .subscribe();
+        listMono.doOnNext(System.out::println)
+                .subscribe();
 
-        ParameterizedTypeReference<List<User>> typeRef = new ParameterizedTypeReference<>() {};
 
-        List<User> users = Arrays.asList(new User("D", "B", 13), new User("E", "F", 22));
-        Mono<List<User>> userMono = Mono.just(users);
+//        List<User> users = Arrays.asList(new User("D", "B", 13), new User("E", "F", 22));
+//        Mono<List<User>> userMono = Mono.just(users);
+//        Flux<User> userFlux = Flux.fromIterable(users);
 
-//        List<User> users = Arrays.asList(
-
-        webClient.post()
-                 .uri("/users")
-//                 .bodyValue(users)
+//        webClient.post()
+//                 .uri("/users")
+////                 .bodyValue(users)
 //                 .body(BodyInserters.fromValue(users))
-                 .body(BodyInserters.fromPublisher(userMono, typeRef))
-                 .retrieve()
-                 .toBodilessEntity()
-                 .subscribe();
-
-
-
-//        };
-//        Mono<List<User>> users = webClient.get()
-//                                          .uri("/users")
-//                                          .retrieve()
-//                                          .bodyToMono(typeRef);
-
+////                 .body(BodyInserters.fromPublisher(userMono, typeRef))
+////                 .body(BodyInserters.fromPublisher(userFlux, User.class))
+//                 .retrieve()
+//                 .toBodilessEntity()
+//                 .subscribe();
     }
 
 }
